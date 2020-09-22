@@ -170,7 +170,7 @@ class AddTodoActivity : AppCompatActivity(), View.OnClickListener {
         val pendingIntent = PendingIntent.getBroadcast(this, 0/*taskRowId*/, intent, PendingIntent.FLAG_ONE_SHOT)
         alarmManager.set(AlarmManager.RTC_WAKEUP, myCalendar.timeInMillis/*timeInMilis*/, pendingIntent)
 
-        createNotification()
+//        createNotification()
     }
 
     fun createNotification() {
