@@ -63,6 +63,7 @@ class AlarmReceiver : BroadcastReceiver() {
         notification.defaults = notification.defaults or Notification.DEFAULT_VIBRATE
         mNotificationManager.notify(Integer.parseInt("1"/*rowId*/), notification)
 
+
         var action = intent?.action
 
         if (action == null) {

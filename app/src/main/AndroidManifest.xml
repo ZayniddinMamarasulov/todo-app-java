@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uz.mamarasulov.todoappjava">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,11 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service
-            android:name=".NotifyService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity
             android:name=".ui.AddTodoActivity"
@@ -33,7 +31,21 @@
 
         <receiver
             android:name="uz.mamarasulov.todoappjava.AlarmReceiver"
-            android:enabled="true" />
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.NOTIFY" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="uz.mamarasulov.todoappjava.MyService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":remote" />
 
     </application>
 
