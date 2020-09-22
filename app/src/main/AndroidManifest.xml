@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service
+            android:name=".NotifyService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ui.AddTodoActivity"
             android:screenOrientation="portrait"
@@ -27,6 +33,8 @@
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true" />
+
+
     </application>
 
 </manifest>

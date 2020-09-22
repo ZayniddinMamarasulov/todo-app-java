@@ -11,12 +11,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import uz.mamarasulov.todoappjava.AlarmReceiver
+import uz.mamarasulov.todoappjava.NotifyService
 import uz.mamarasulov.todoappjava.R
 import uz.mamarasulov.todoappjava.model.Note
 import uz.mamarasulov.todoappjava.util.AppConstants
 import uz.mamarasulov.todoappjava.util.AppUtils
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AddTodoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -168,6 +170,20 @@ class AddTodoActivity : AppCompatActivity(), View.OnClickListener {
         val pendingIntent = PendingIntent.getBroadcast(this, 0/*taskRowId*/, intent, PendingIntent.FLAG_ONE_SHOT)
         alarmManager.set(AlarmManager.RTC_WAKEUP, myCalendar.timeInMillis/*timeInMilis*/, pendingIntent)
 
+        createNotification()
+    }
+
+    fun createNotification() {
+        val myIntent = Intent(applicationContext, NotifyService::class.java)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getService(this, 0, myIntent, 0)
+//        val calendar = Calendar.getInstance()
+//        calendar[Calendar.SECOND] = 5
+//        calendar[Calendar.MINUTE] = 0
+//        calendar[Calendar.HOUR] = 0
+//        calendar[Calendar.AM_PM] = Calendar.AM
+//        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, myCalendar.timeInMillis, 1000 * 60 * 60 * 24.toLong(), pendingIntent)
     }
 
     private fun dateAndTime() {
