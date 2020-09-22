@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import uz.mamarasulov.todoappjava.ui.MainActivity
+import uz.mamarasulov.todoappjava.util.AppConstants
 import uz.mamarasulov.todoappjava.util.toastMessage
 
 /**
@@ -22,9 +23,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val mNotificationManager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-//        val taskRowId = intent!!.extras.getInt(Constant.TASK_ID)
-//        val taskTitle = intent.extras.getString(Constant.TASK_TITLE)
-//        val taskTask = intent.extras.getString(Constant.TASK_TASK)
+        val taskTitle = intent?.extras?.getString(AppConstants.INTENT_TITLE)
+        val taskTask = intent?.extras?.getString(AppConstants.INTENT_TASK)
 //
 //        val rowId = taskRowId.toString()
         val notificationIntent = Intent(context, MainActivity::class.java)
@@ -39,8 +39,8 @@ class AlarmReceiver : BroadcastReceiver() {
         notificationFinishIntent.action = "FINISH"
         val pendingFinishIntent = PendingIntent.getActivity(context, 0, notificationFinishIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val title = "Hello title"//taskTitle//task title
-        val message = "Hello message"//taskTask//task
+        val title = taskTitle//taskTitle//task title
+        val message = taskTask//taskTask//task
         val icon = R.mipmap.ic_launcher
         val time = System.currentTimeMillis()
 

@@ -164,11 +164,11 @@ class AddTodoActivity : AppCompatActivity(), View.OnClickListener {
 //        val taskRowId = Integer.parseInt(id)
         val intent = Intent(this, AlarmReceiver::class.java)
 //        intent.putExtra(Constant.TASK_ID, taskRowId)
-//        intent.putExtra(Constant.TASK_TITLE, title)
-//        intent.putExtra(Constant.TASK_TASK, task)
+        intent.putExtra(AppConstants.INTENT_TITLE, note?.title)
+        intent.putExtra(AppConstants.INTENT_TASK, note?.description)
 
         val pendingIntent = PendingIntent.getBroadcast(this, 0/*taskRowId*/, intent, PendingIntent.FLAG_ONE_SHOT)
-        alarmManager.set(AlarmManager.RTC_WAKEUP, myCalendar.timeInMillis/*timeInMilis*/, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, myCalendar.timeInMillis, pendingIntent)
 
 //        createNotification()
     }

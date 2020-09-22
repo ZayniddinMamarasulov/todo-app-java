@@ -19,7 +19,7 @@ public class TimestampConverter {
     public static Date fromTimestamp(String value) {
         if (value != null) {
             try {
-                TimeZone timeZone = TimeZone.getTimeZone("UZB");
+                TimeZone timeZone = TimeZone.getTimeZone("UTC+5");
                 dateFormat.setTimeZone(timeZone);
                 return dateFormat.parse(value);
             } catch (ParseException e) {
@@ -33,7 +33,7 @@ public class TimestampConverter {
 
     @TypeConverter
     public static String dateToTimestamp(Date value) {
-        TimeZone timeZone = TimeZone.getTimeZone("UZB");
+        TimeZone timeZone = TimeZone.getTimeZone("UTC+5");
         dateFormat.setTimeZone(timeZone);
         return value == null ? null : dateFormat.format(value);
     }
