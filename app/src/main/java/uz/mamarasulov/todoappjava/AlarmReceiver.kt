@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import uz.mamarasulov.todoappjava.ui.MainActivity
 import uz.mamarasulov.todoappjava.util.AppConstants
 import uz.mamarasulov.todoappjava.util.toastMessage
+import kotlin.time.milliseconds
 
 /**
  *  Created by Zayniddin on Sep 09 - 10:59
@@ -23,20 +24,21 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val mNotificationManager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+        val taskId = intent?.extras?.getString(AppConstants.TASK_ID)
         val taskTitle = intent?.extras?.getString(AppConstants.INTENT_TITLE)
         val taskTask = intent?.extras?.getString(AppConstants.INTENT_TASK)
 //
-//        val rowId = taskRowId.toString()
+        val rowId = taskId.toString()
         val notificationIntent = Intent(context, MainActivity::class.java)
 //        notificationIntent.putExtra(Constant.ROW_ID, rowId)
 //        notificationIntent.putExtra(Constant.NOTIFICATION, true)
-        notificationIntent.action = "EDIT"
+//        notificationIntent.action = "EDIT"
         val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notificationFinishIntent = Intent(context, MainActivity::class.java)
 //        notificationFinishIntent.putExtra(Constant.ROW_ID, rowId)
 //        notificationFinishIntent.putExtra(Constant.NOTIFICATION, true)
-        notificationFinishIntent.action = "FINISH"
+//        notificationFinishIntent.action = "FINISH"
         val pendingFinishIntent = PendingIntent.getActivity(context, 0, notificationFinishIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val title = taskTitle//taskTitle//task title
@@ -44,7 +46,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val icon = R.mipmap.ic_launcher
         val time = System.currentTimeMillis()
 
-        val notification = NotificationCompat.Builder(context)
+        val notification = NotificationCompat.Builder(context, "notifyMe")
                 .setContentTitle(title)
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                 .setContentText(message)
@@ -52,8 +54,8 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setColor(Color.argb(225, 225, 87, 34))
                 .setSmallIcon(icon)
                 .setWhen(time)
-                .addAction(R.drawable.ic_edit_black_24dp, "Edit", pendingIntent)
-                .addAction(R.drawable.ic_check_black_24dp, "Finish", pendingFinishIntent)
+//                .addAction(R.drawable.ic_edit_black_24dp, "Edit", pendingIntent)
+//                .addAction(R.drawable.ic_check_black_24dp, "Finish", pendingFinishIntent)
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .build()
@@ -61,7 +63,7 @@ class AlarmReceiver : BroadcastReceiver() {
         notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
         notification.defaults = notification.defaults or Notification.DEFAULT_SOUND
         notification.defaults = notification.defaults or Notification.DEFAULT_VIBRATE
-        mNotificationManager.notify(Integer.parseInt("1"/*rowId*/), notification)
+        mNotificationManager.notify(Integer.parseInt(System.currentTimeMillis().toString().takeLast(4)/*rowId*/), notification)
 
 
         var action = intent?.action

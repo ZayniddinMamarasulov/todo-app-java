@@ -161,15 +161,16 @@ class AddTodoActivity : AppCompatActivity(), View.OnClickListener {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val intent = Intent(this, AlarmReceiver::class.java)
-//        intent.putExtra(Constant.TASK_ID, taskRowId)
 
         intent.action = "android.intent.action.NOTIFY"
-        intent.putExtra(AppConstants.INTENT_TITLE, note?.title)
-        intent.putExtra(AppConstants.INTENT_TASK, note?.description)
+        intent.putExtra(AppConstants.TASK_ID, note?.id)
+        intent.putExtra(AppConstants.INTENT_TITLE, editTitle!!.text.toString()/*note?.title*/)
+        intent.putExtra(AppConstants.INTENT_TASK, editDesc!!.text.toString()/*note?.description*/)
 
-        val pendingIntent = PendingIntent.getBroadcast(this, 0/*taskRowId*/, intent, PendingIntent.FLAG_ONE_SHOT)
+//        val tmpTime = System.currentTimeMillis()
+
+        val pendingIntent = PendingIntent.getBroadcast(this, 0/*taskRowId*/, intent, 0)
         alarmManager.set(AlarmManager.RTC_WAKEUP, myCalendar.timeInMillis, pendingIntent)
-
     }
 
     private fun dateAndTime() {
@@ -233,6 +234,5 @@ class AddTodoActivity : AppCompatActivity(), View.OnClickListener {
 //        relativeLayoutTime.visibility = View.VISIBLE
 //        imgCancelDate.visibility = View.VISIBLE
     }
-
 
 }
